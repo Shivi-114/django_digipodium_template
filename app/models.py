@@ -1,9 +1,10 @@
+from django.core.checks import messages
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.contrib.auth.models import User
-from django.db.models.fields import CharField, DateTimeField, IntegerField, TextField
+from django.db.models.fields import CharField, DateTimeField, EmailField, IntegerField, TextField
 from django.db.models.fields.related import ForeignKey
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
@@ -122,3 +123,20 @@ class Report(models.Model):
 
     def __str__(self):
         return self.user
+
+
+class Contact(models.Model):
+    """Model definition for Contact."""
+
+    name = CharField(max_length=30)
+    email =EmailField()
+    subject = CharField(max_length=255)
+    messages = TextField()
+    
+    class Meta:
+        """Meta definition for Contact."""
+        verbose_name = 'Contact'
+        verbose_name_plural = 'Contacts'
+
+    def __str__(self):
+        return self.name
