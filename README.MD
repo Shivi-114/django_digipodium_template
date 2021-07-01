@@ -27,4 +27,3 @@ python manage.py runserver
 #### local web server for testing mail 
 ```
 python -m smtpd -n -c DebuggingServer localhost:1025
-```

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'app',
     'social_django',
     'crispy_forms',
+    'userauth',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -144,7 +145,7 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
 
@@ -152,6 +153,6 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 
 # social github login KEYS
-SOCIAL_AUTH_GITHUB_KEY = 'CLIENTID AAPKI'
-SOCIAL_AUTH_GITHUB_SECRET = 'CLIENT SECRET AAPKA'
+SOCIAL_AUTH_GITHUB_KEY =  'ec3fb886a3377e759909'
+SOCIAL_AUTH_GITHUB_SECRET =   '5d6ae7cc7d19a0d018868e09a4f1bd3a0d00311f'
 
