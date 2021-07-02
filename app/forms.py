@@ -1,6 +1,7 @@
 from django import forms
 from django.db.models import fields
-from .models import Contact, Profile, ServiceRequest
+from django.forms.models import ModelForm
+from .models import Contact, Profile, Report, ServiceRequest
 
 
 class ProfileForm(forms.ModelForm):
@@ -21,4 +22,13 @@ class ContactForm(forms.ModelForm):
         """Meta definition for Contactform."""
 
         model = Contact
-        fields = ('',)
+        fields = ('name','email','subject','messages')
+
+
+class ReportForm(forms.ModelForm):
+    
+    class Meta:
+
+        model = Report
+        fields = ('user','feedbackfor','message','rating')
+

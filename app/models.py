@@ -33,6 +33,9 @@ gender_option = (
     ('M', 'Male'),
     ('F', 'Female')
 )
+
+
+
 phone_regex = RegexValidator(regex=r'^\d{10,15}$', message="Phone number must be entered in the format: '999999999'. Up to 15 digits allowed.")
 
 
@@ -51,7 +54,7 @@ class Equipment(models.Model):
     catagory = models.CharField(max_length=50, default='Machine_one')
     price = models.IntegerField(null=True)
     rent_price = models.IntegerField(null=True)
-    image_1 = models.ImageField(upload_to='equipments')
+    image =  models.ImageField(upload_to='equipments')
     image_2 =  models.ImageField(upload_to='equipments')
     Description = models.TextField()
     availability = models.BooleanField()
@@ -100,7 +103,6 @@ class Purchase(models.Model):
         return self.user
 
 class ServiceRequest(models.Model):
-   
     hr = models.ForeignKey(Human_Resource, on_delete=models.CASCADE,related_name='hr_person')
     for_user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='client')
     durations = models.CharField(max_length=100, choices=duration_option)
@@ -121,9 +123,7 @@ class Report(models.Model):
     message = models.CharField(max_length=100,)
     rating = models.IntegerField()
 
-    def __str__(self):
-        return self.user
-
+    
 
 class Contact(models.Model):
     """Model definition for Contact."""

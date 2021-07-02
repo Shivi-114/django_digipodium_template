@@ -2,75 +2,8 @@
 
 
 {% block content %}
-
-<h1 style="text-align: center;">User Profile</h1> <br>
-
-
-<!-- {% for data in userprofile %}
-<h6>Name : {{user}}</h6>
-<h6>Gender : {{data.gender}}</h6>
-<h6>Email : {{data.email}}</h6>
-<h6>Contact No. : {{data.mobile}}</h6>
-<h6>User_pic : {{data.pic}}</h6>
-<h6>Account Date : {{data.update_on}}</h6>
-<img src="{{data.pic.url}}" alt="">
-<hr> <br>
-
-
-{% empty %}
-<h5>No data found for human resources</h5>
-{% endfor %} -->
-
-
-
-
-
-
-
-<!-- <div class="container">
-    <div class="row">
-        {% for data in userprofile %}
-        <div class="col-sm-6 col-md-4 ">
-            <div class="card mb-4 box-shadow" style="width: 20cm;">
-                <img class="card-img-top mx-auto" style="height: 225px; width: 50%; display: block;"
-                    src="{{data.pic.url}}" data-holder-rendered="true">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        {{user}}
-                    </h1>
-                    <h3 class="card-text">Gender : {{data.gender}}</h3>
-                    <h3 class="card-text">Email : {{data.email}}</h3>
-                    <h3 class="card-text">Contact No. : {{data.mobile}}</h3>
-                    <h3 class="card-text">ccount Date : {{data.update_on}}</h3>
-
-
-                    <div class="justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-outline-secondary">View detail</a>
-                            <a href="#" class="btn btn-sm btn-outline-secondary">Request</a>
-                        </div>
-                        <small class="text-muted">9 mins</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <h5>No data found for human resources</h5>
-        {% endfor %}
-    </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
-
+<br>
+<h1 id="mhi" style="text-align: center; margin-left: 26%;">User Profile</h1> <br>
 
 
 <div class="container">
@@ -187,6 +120,27 @@
 }
 .me-2 {
     margin-right: .5rem!important;
+}
+
+
+
+#mhi {
+      
+        
+      width: 700px;
+     height: 50px;
+     font-weight: bold;
+     position: relative;
+     animation: myfirst 10s linear 1s infinite alternate;
+ }
+
+ @keyframes myfirst {
+ 
+0%   {left:0px; top:0px;}
+25%  {left:200px; top:0px;}
+50%  {left:0px; top:0px;}
+75%  {left:200px; top:0px;}
+100% {left:0px; top:0px;}
 }
    </style>
 {% endblock css %}

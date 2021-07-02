@@ -1,10 +1,12 @@
-from app.forms import ProfileForm, ServiceRequestForm
+import re
+from app.forms import ProfileForm, ReportForm, ServiceRequestForm, ContactForm,ReportForm
 from typing import ContextManager
 from django.shortcuts import render, redirect
-from .models import  Human_Resource, Profile, ServiceRequest
+from .models import  Equipment, Human_Resource, Profile, ServiceRequest
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from cart.cart import Cart
 
 # Create your views here.
 def homeview(request):
@@ -28,7 +30,9 @@ def detail_hr(request,pk):
     return render(request,'hr/detail.html',context)
 
 def purchase(request):
-    return render(request,'purchase/purchase.html')
+    equipments = Equipment.objects.all()
+    ctx = {'equipments':equipments}
+    return render(request,'purchase/purchase.html',ctx)
 
 def rent(request):
     return render(request,'rent_services/rent.html')
@@ -91,3 +95,92 @@ def edit_profileview(request, pk):
 
 def about(request):
     return render(request,'about.html')
+
+def contact(request):
+    if request.method == 'POST':
+        # when u fill the form, post method activities
+        form = ContactForm(request.POST)
+        # if all the data in form is okay
+        
+        if form.is_valid():
+            # save it into database
+            form.save()
+            # redirect the page
+            return redirect('contact') 
+    else:
+        # when u just open the page to view the form
+        form = ContactForm() # Khali form
+
+    # put info in the context to send it into page
+    context = {'c_form':form}
+    # set which page to load
+    return render(request,'contactus.html',context)
+
+
+
+def report(request):
+    if request.method== 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('report')
+    else:
+        form = ReportForm()
+    
+    context = {'c_form':form}
+
+    return render(request,'report.html', context)
+
+
+
+@login_required()
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("home")
+
+
+@login_required()
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("cart_detail")
+
+
+@login_required()
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+
+@login_required()
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.decrement(product=product)
+    return redirect("cart_detail")
+
+
+@login_required()
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+
+@login_required()
+def cart_detail(request):
+    return render(request, 'cart/cart_detail.html')
+
+
+
+
+
+            
+    
+
+ 
