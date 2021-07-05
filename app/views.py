@@ -106,6 +106,7 @@ def contact(request):
             # save it into database
             form.save()
             # redirect the page
+            messages.success(request,"Contact has been save") 
             return redirect('contact') 
     else:
         # when u just open the page to view the form
@@ -131,20 +132,19 @@ def report(request):
 
     return render(request,'report.html', context)
 
-
-
 @login_required()
 def cart_add(request, id):
     cart = Cart(request)
-    product = Product.objects.get(id=id)
+    product = Equipment.objects.get(id=id)
     cart.add(product=product)
-    return redirect("home")
+    messages.success(request,f"Successfully added {product.name} to cart")
+    return redirect("pc")
 
 
 @login_required()
 def item_clear(request, id):
     cart = Cart(request)
-    product = Product.objects.get(id=id)
+    product = Equipment.objects.get(id=id)
     cart.remove(product)
     return redirect("cart_detail")
 
@@ -152,7 +152,7 @@ def item_clear(request, id):
 @login_required()
 def item_increment(request, id):
     cart = Cart(request)
-    product = Product.objects.get(id=id)
+    product = Equipment.objects.get(id=id)
     cart.add(product=product)
     return redirect("cart_detail")
 
@@ -160,7 +160,7 @@ def item_increment(request, id):
 @login_required()
 def item_decrement(request, id):
     cart = Cart(request)
-    product = Product.objects.get(id=id)
+    product = Equipment.objects.get(id=id)
     cart.decrement(product=product)
     return redirect("cart_detail")
 
@@ -174,6 +174,7 @@ def cart_clear(request):
 
 @login_required()
 def cart_detail(request):
+    
     return render(request, 'cart/cart_detail.html')
 
 
