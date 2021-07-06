@@ -4,8 +4,8 @@
 
 {% block content %}
 <br>
-<h1 id="mhi" style="text-align: center; margin-left: 26%;">Contact Us</h1> <br>
-<div class="container mx-auto" id="fdm">
+<h1 id="mhi" style="text-align: center; margin-left: 26%; color: blue;">Contact Us</h1> <br>
+<div class="container mx-auto bg-dark" id="fdm">
     <form method="post" >
         {% csrf_token %}
         {{c_form|crispy}}
@@ -71,17 +71,14 @@
 }
 label{
         font-weight: bold;
+        color: white;
     }
     body{
         size: cover;
-        /* background-image: url('https://images.unsplash.com/photo-1539628399213-d6aa89c93074?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80'); */
         background-image: url('{% static "app/background.jpg" %}');
         
         background-repeat: no-repeat;
-        background-size: 120%
-        
-        
-        
+        background-size: 130%
         
     }
 

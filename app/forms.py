@@ -9,7 +9,6 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ('Full_Name', 'gender', 'mobile', 'pic', 'address')
 
-
 class ServiceRequestForm(forms.ModelForm):
     class Meta:
         model = ServiceRequest
@@ -24,11 +23,8 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = ('name','email','subject','messages')
 
-
 class ReportForm(forms.ModelForm):
-    
     class Meta:
-
         model = Report
-        fields = ('user','feedbackfor','message','rating')
+        fields = ('feedbackfor','message','rating')
 

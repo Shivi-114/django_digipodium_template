@@ -1,9 +1,10 @@
 {% extends 'layout/base.html' %}
+{% load static %}
 
 
 {% block content %}
 <br>
-<h1 id="mhi" style="text-align: center; margin-left: 26%;">User Profile</h1> <br>
+<h1 id="mhi" style="text-align: center; margin-left: 26%; color: blue;">User Profile</h1> <br>
 
 
 <div class="container">
@@ -102,9 +103,13 @@
 {% block css %}
    <style>
        body{
-    background: #f7f7ff;
-    
-}
+        size: cover;
+        background-image: url('{% static "app/userprofile.jpg" %}');
+        
+        background-repeat: no-repeat;
+        background-size: 100%
+        
+    }
 .card {
     position: relative;
     display: flex;

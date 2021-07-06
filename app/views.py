@@ -2,11 +2,15 @@ import re
 from app.forms import ProfileForm, ReportForm, ServiceRequestForm, ContactForm,ReportForm
 from typing import ContextManager
 from django.shortcuts import render, redirect
-from .models import  Equipment, Human_Resource, Profile, ServiceRequest
+from .models import  Equipment, Human_Resource, Order, Profile, ServiceRequest
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from cart.cart import Cart
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+import stripe
+from django.http.response import JsonResponse
 
 # Create your views here.
 def homeview(request):
@@ -49,9 +53,66 @@ def service_request(request,pk):
             fd.save()
             messages.success(request,"Service request has been sent") 
             return redirect('home')
+        else:
+            messages.error(request,"Service request has not been sent") 
     context = {'form':form}
     return render(request,'hr/request_form.html', context)
 
+
+@csrf_exempt
+def stripe_config(request):
+    if request.method == "GET":
+        stripe_config = {'publicKey':settings.STRIPE_PUBLISHABLE_KEY}
+        return JsonResponse(stripe_config,safe=False)
+
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method =='GET':
+        domain_url = "http://127.0.0.1:8000/"
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        price = request.GET.get('price')
+        price = str(price).replace('.','0')+"00"
+        if isinstance(request.session.get('cart'),dict):
+            for k,v in request.session['cart'].items():
+                print(v)
+                product = Equipment.objects.get(id=v['product_id'])
+                print(product)
+                order = Order(buyer=request.user,product=product)
+                order.save()
+        else:
+            print('no cart found')
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                # new
+                client_reference_id=request.user.id if request.user.is_authenticated else None,
+                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=domain_url + 'cancelled/',
+                payment_method_types=['card'],
+                mode='payment',
+                line_items=[
+                    {   
+                        'name':'Medica Payment',
+                        'quantity':1,
+                        'currency':'inr',
+                        'amount': int(price),
+                    }
+                ]
+            )
+            return JsonResponse({'sessionId': checkout_session['id']})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
+
+def notify_success(request):
+    messages.success(request,f"Your payment is complete.")
+    cart = Cart(request)
+    cart.clear()
+    return render(request,"cart/success.html")
+
+def notify_cancelled(request):
+    messages.error(request,f"Your payment is cancelled.")
+    return render(request,"cart/cancelled.html")
 
 def user_profile(request):
     return render(request, 'user_profile/user.html')
@@ -68,6 +129,7 @@ def user_profileview(request):
         context = {'userprofile': None}
     return render(request, 'user_profile.html',context)
 
+@login_required
 def edit_profileview(request, pk):
     try:
         udata = Profile.objects.filter(pk=pk)
@@ -85,6 +147,7 @@ def edit_profileview(request, pk):
                 fd.user=request.user
                 fd.email=request.user.email
                 fd.save()
+                messages.success(request,"User Profile has been updated") 
                 return redirect('up')
         
         context = {"pform":form}
@@ -117,19 +180,21 @@ def contact(request):
     # set which page to load
     return render(request,'contactus.html',context)
 
-
-
+@login_required
 def report(request):
     if request.method== 'POST':
         form = ReportForm(request.POST)
         if form.is_valid():
-            form.save()
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            messages.success(request,"Report has been sent") 
             return redirect('report')
+        else:
+            messages.error(request,"Report has not been sent") 
     else:
         form = ReportForm()
-    
     context = {'c_form':form}
-
     return render(request,'report.html', context)
 
 @login_required()
@@ -174,8 +239,14 @@ def cart_clear(request):
 
 @login_required()
 def cart_detail(request):
-    
-    return render(request, 'cart/cart_detail.html')
+    total = 0
+    for k,v in request.session.get('cart').items():
+        qty = v.get("quantity")
+        price = v.get("price")
+        total +=int(qty)*int(price)
+    # print(total)
+    ctx = {'total':total}
+    return render(request, 'cart/cart_detail.html',ctx)
 
 
 

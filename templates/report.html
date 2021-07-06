@@ -1,10 +1,11 @@
 {% extends 'layout/base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
 <br>
-<h1 id="mhi" style="text-align: center; margin-left: 26%;">Report</h1> <br>
-<div class="container mx-auto" id="fdm">
+<h1 id="mhi"  style="text-align: center; margin-left: 26%; color: blue; ">Report</h1> <br>
+<div class="container mx-auto bg-dark"  id="fdm">
     <form method="post" >
         {% csrf_token %}
         {{c_form|crispy}}
@@ -70,11 +71,19 @@
 }
 label{
         font-weight: bold;
+        color: white;
     }
-    body{
+    /* body{
     background-color: #f7f7ffc2;
+    } */
+    body{
+        size: cover;
+        background-image: url('{% static "app/db.jpg" %}');
+        
+        background-repeat: no-repeat;
+        background-size: 100%
+        
     }
-
     </style>
 {% endblock css %}
     

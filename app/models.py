@@ -1,8 +1,7 @@
 from django.core.checks import messages
 from django.db import models
-from django.db.models.deletion import CASCADE
+from django.db.models.deletion import CASCADE, DO_NOTHING
 from django.contrib.auth.models import User
-from django.db.models.deletion import CASCADE
 from django.contrib.auth.models import User
 from django.db.models.fields import CharField, DateTimeField, EmailField, IntegerField, TextField
 from django.db.models.fields.related import ForeignKey
@@ -121,9 +120,7 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,)
     feedbackfor = models.CharField(max_length=15, choices=Feedback_options.choices,default=Feedback_options.REVIEW)
     message = models.CharField(max_length=100,)
-    rating = models.IntegerField()
-
-    
+    rating = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)],help_text="give a rating between 1 to 5")
 
 class Contact(models.Model):
     """Model definition for Contact."""
@@ -140,3 +137,23 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Order(models.Model):
+    class StatusOfOrder(models.TextChoices):
+        PROCESSING = 'P',_('Processing')
+        TRANSIT = 'T',_('In Transit')
+        DELIVERED = 'D',_('delivered')
+        CANCELLED = 'C',_('cancelled')
+       
+
+    buyer = ForeignKey(User,on_delete=DO_NOTHING)
+    product = ForeignKey(Equipment,on_delete=DO_NOTHING)
+    status = CharField(max_length=15,choices=StatusOfOrder.choices, default=StatusOfOrder.PROCESSING)
+    date = DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
+
+    def __str__(self):
+        return f'{self.buyer.username} order {self.product.name} status : {self.status}'

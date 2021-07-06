@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contact, Profile,Equipment,EquipmentRental,Human_Resource,Purchase,ServiceRequest,Report
+from .models import Contact, Order, Profile,Equipment,EquipmentRental,Human_Resource,Purchase,ServiceRequest,Report
 
 # Register your models here.
 admin.site.register(Profile)
@@ -10,4 +10,5 @@ admin.site.register(Purchase)
 admin.site.register(ServiceRequest)
 admin.site.register(Report)
 admin.site.register(Contact)
+admin.site.register(Order)
 
