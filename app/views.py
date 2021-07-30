@@ -13,6 +13,7 @@ import stripe
 from django.http.response import JsonResponse
 
 # Create your views here.
+
 def homeview(request):
     ctx ={'title':'welcome'}
     return render(request,'index.html',context= ctx)

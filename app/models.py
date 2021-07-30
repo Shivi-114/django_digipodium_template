@@ -25,8 +25,14 @@ duration_option =  (
     ('10', '10-Day'),
 )
 age_option = (
-    ('Teenager', '21 to 32'),
-    ('Elder', '31 to 44'),
+    ('grp0', ' new born babies < 12 months'),
+    ('grp1', '1 to 10 yrs'),
+    ('grp2', '11 to 20 yrs'),
+    ('grp3', '21 to 30 yrs'),
+    ('grp4', '31 to 40 yrs'),
+    ('grp5', '41 to 60 yrs'),
+    ('grp6', '60+'),
+
 )
 gender_option = (
     ('M', 'Male'),
@@ -35,7 +41,7 @@ gender_option = (
 
 
 
-phone_regex = RegexValidator(regex=r'^\d{10,15}$', message="Phone number must be entered in the format: '999999999'. Up to 15 digits allowed.")
+phone_regex = RegexValidator(regex=r'^\d{10,15}$', message="Phone number must be entered''''[['[]]] in the format: '999999999'. Up to 15 digits allowed.")
 
 
 class Profile(models.Model):
@@ -47,6 +53,9 @@ class Profile(models.Model):
     pic = models.ImageField(upload_to='users')
     update_on = models.DateTimeField(auto_now=True)
     address=models.TextField(default="not available")
+
+    def __str__(self):
+        return self.user.username
 
 class Equipment(models.Model):
     name = models.CharField(max_length=50)
@@ -86,6 +95,8 @@ class Human_Resource(models.Model):
     date_added = models.DateTimeField(auto_now=True)
     is_available = models.BooleanField()
     img = models.ImageField(upload_to = "hr/",default="default_hr.jpg")
+    experience = models.IntegerField(default=1)
+    
 
     def __str__(self):
         return self.name
@@ -109,6 +120,10 @@ class ServiceRequest(models.Model):
     age = models.CharField(max_length=30, choices=age_option,default='')
     request_for = models.TextField(default='')
     service_is_complete = models.BooleanField(default='True')
+    
+    class Meta:
+        verbose_name = 'Patient detail'
+        verbose_name_plural = 'Patient details'
 
     def __str__(self):
         return f'request from user:{self.for_user.username} for => helper: {self.hr.name}'

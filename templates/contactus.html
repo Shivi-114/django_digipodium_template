@@ -4,7 +4,7 @@
 
 {% block content %}
 <br>
-<h1 id="mhi" style="text-align: center; margin-left: 26%; color: blue;">Contact Us</h1> <br>
+<h1 id="mhi" style="text-align: center; margin-left: 30%; color: blue;">Contact Us</h1> <br>
 <div class="container mx-auto bg-dark" id="fdm">
     <form method="post" >
         {% csrf_token %}
@@ -53,6 +53,7 @@
 
     #mhi {
       
+        text-shadow: 3px 5px 8px rgb(253, 253, 253);
         
          width: 700px;
         height: 50px;
@@ -75,12 +76,15 @@ label{
     }
     body{
         size: cover;
-        background-image: url('{% static "app/background.jpg" %}');
+        background-image: url('{% static "app/background2.jpg" %}');
         
         background-repeat: no-repeat;
-        background-size: 130%
+        background-size: 100%
         
     }
+    footer{
+            margin-top: 240px!important;
+        }
 
     </style>
 {% endblock css %}

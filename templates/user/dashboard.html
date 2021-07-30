@@ -1,26 +1,25 @@
 {% extends 'layout/base.html' %}
+{% load static %}
 
 {% block css %}
   <style>
+    #myjumbo{
+      background-image: url('{% static "app/jumbo.jpg" %}');
+        
+        background-repeat: no-repeat;
+        height: 10cm;
+        background-size: 100%
+    }
     
   </style>
 {% endblock css %}
   
 
 {% block content %}
-<!-- <div class="container">
-  <div class="row">
-    <a href="{% url 'view_hr' %}">Human Resource</a>
-  </div>
-  <div class="row">
-    <a href="{% url 'pc' %}">Purchase</a>
-  </div>
-</div> -->
-{% load static %}
-<div class="container-fluid bg-danger">
 
 
-<div class="jumbotron bg-danger">
+
+<div class="jumbotron bg-danger " id="myjumbo">
   <h1 style="text-align: center; font-family: 'Times New Roman', Times, serif;" class="display-4"><b>Hello {{user}}</b></h1>
   <p style="text-align: center;" class="lead">This <strong>website</strong> providing a health care treatment with specialize medical and nursing staff and medicals equipment
     at <strong> home</strong>.
@@ -70,6 +69,7 @@
 
 </div>
 </div>
+<br><br><br>
 
 
 {% endblock content %}

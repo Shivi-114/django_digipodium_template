@@ -5,19 +5,47 @@
 
 {% block css %}
 <style>
-    body{
-        height: 100vh;
-    }
+    body {
+        
+        background-image: url('{% static "app/login.png" %}');
+        size: cover;
+        background-repeat: no-repeat;
+        background-size: 100%;
+      }
+      footer{
+            margin-top: 190px!important;
+        }
     .alert-danger ul {
         list-style: none;
         padding-left: 0;
     }
+    #mhi {
+      
+      text-shadow: 3px 5px 8px rgb(253, 253, 253);
+      
+       width: 700px;
+      height: 50px;
+      font-weight: bold;
+      position: relative;
+      animation: myfirst 10s linear 1s infinite alternate;
+  }
+
+  @keyframes myfirst {
+  
+0%   {left:0px; top:0px;}
+25%  {left:200px; top:0px;}
+50%  {left:0px; top:0px;}
+75%  {left:200px; top:0px;}
+100% {left:0px; top:0px;}
+}
 </style>
 {% endblock css %}
 
 
 {% block content %}
-<div class="container">
+<br>
+<h1 id="mhi" style="text-align: center; margin-left: 30%; color: blue;">Register</h1>
+<div class="container" style="margin-top: 4%;">
     <div class="row my-5">
         <div class="col-lg-6 col-sm-6 formarea mx-auto">
             <a class="btn btn-dark btn-block" href="{% url 'social:begin' 'github' %}"><i class="fa fa-github" aria-hidden="true"></i> Login with Github</a>
